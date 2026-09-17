@@ -2,7 +2,9 @@ import { Router, Request, Response } from "express";
 
 const routes = Router();
 
-routes.get("/tarefas", (req: Request, res: Response) => {
+const tarefas: string[] = ["Estudar Node JS", "Estudar JavaScript"];
+
+routes.get("/inicio-demo", (req: Request, res: Response) => {
   res.json({ message: "Minha primeira api", Aluno: "Vitor Costadela" });
 });
 
@@ -17,7 +19,7 @@ routes.get("/busca", (req: Request, res: Response) => {
 });
 
 // ROUTE PARAMS: Buscar algo específico por ID na URL (Ex: /tarefas/15)
-routes.get("/tarefas/:id", (req: Request, res: Response) => {
+routes.get("/tarefas-demo/:id", (req: Request, res: Response) => {
   const { id } = req.params;
 
   res.json({
@@ -27,7 +29,7 @@ routes.get("/tarefas/:id", (req: Request, res: Response) => {
 });
 
 // REQUEST BODY: Envio de dados via corpo da requisição (POST)
-routes.post("/tarefas", (req: Request, res: Response) => {
+routes.post("/tarefas-demo", (req: Request, res: Response) => {
   const { titulo, responsavel } = req.body;
 
   res.json({
@@ -38,6 +40,40 @@ routes.post("/tarefas", (req: Request, res: Response) => {
       responsavel,
     },
   });
+});
+
+// ==========================================
+// ROTAS FUNCIONAIS (Manipulando o Array)
+// ==========================================
+
+// Listar todas as tarefas do array
+routes.get("/tarefas", (req: Request, res: Response) => {
+  return res.json(tarefas);
+});
+
+// Buscar tarefa específica pelo índice (/tarefa/0)
+routes.get("/tarefa/:index", (req: Request, res: Response) => {
+  const { index } = req.params;
+  const tarefaEncontrada = tarefas[Number(index)];
+
+  if (!tarefaEncontrada) {
+    return res.status(404).json({ message: "Tarefa não encontrada" });
+  }
+
+  return res.json({ tarefa: tarefaEncontrada });
+});
+
+// Cadastrar nova tarefa no array (POST /tarefa)
+routes.post("/tarefa", (req: Request, res: Response) => {
+  const { nome } = req.body;
+
+  if (!nome) {
+    return res.status(400).json({ message: "Erro ao cadastrar. Nome obrigatório." });
+  }
+
+  tarefas.push(nome);
+
+  return res.status(201).json(tarefas);
 });
 
 export { routes };
