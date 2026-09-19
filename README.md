@@ -1,51 +1,53 @@
-# 🚀 Estudo de API em Node.js + TypeScript
+# 🚀 Tarefas API (Node.js + TypeScript)
 
-Projeto prático para aprender a base de um servidor backend do zero usando Node.js, Express e TypeScript.
-
----
-
-## 🛠️ Tecnologias Usadas
-- Node.js
-- Express
-- TypeScript
-- Yarn
-- ts-node-dev
+API RESTful simples desenvolvida para consolidar os conceitos fundamentais de backend, roteamento, middlewares e arquitetura MVC em Node.js.
 
 ---
 
-## 📌 O que foi feito até agora
-- Configuração do servidor HTTP com Express.
-- Setup do ambiente com TypeScript e autoreload (`ts-node-dev`).
-- Conceitos praticados:
-  - **Query Params (`req.query`):** Filtros e buscas via URL (`GET /busca`).
-  - **Route Params (`req.params`):** Identificação de recursos por ID (`GET /tarefas/:id`).
-  - **Request Body (`req.body`):** Envio de dados via corpo da requisição (`POST /tarefas`).
+## 🛠️ Tecnologias
+
+- **Node.js** & **TypeScript**
+- **Express** (Framework Web)
+- **Insomnia** (Testes de endpoints)
 
 ---
 
-## 📍 Endpoints da API
+## 🏗️ Arquitetura do Projeto
 
-| Método | Endpoint | Descrição | Exemplo |
+O projeto utiliza o padrão **MVC (Model-View-Controller)** para separação de responsabilidades:
+- `src/routes.ts`: Mapeamento das URLs e direcionamento de tráfego.
+- `src/controllers/TarefaController.ts`: Regras de negócio, validações e manipulação do array em memória.
+
+---
+
+## 📌 Endpoints da API
+
+### Rotas de Estudo (Demonstrativas)
+- `GET /inicio-demo` — Retorno estático de boas-vindas.
+- `GET /busca?termo=node` — Exemplo de leitura de **Query Params**.
+- `GET /tarefas-demo/:id` — Exemplo de leitura de **Route Params**.
+- `POST /tarefas-demo` — Exemplo de leitura de **Request Body**.
+
+### Rotas Funcionais (CRUD de Tarefas)
+
+| Método | Rota | Descrição | Status de Resposta |
 | :--- | :--- | :--- | :--- |
-| `GET` | `/tarefas` | Rota inicial da aplicação | `http://localhost:3333/tarefas` |
-| `GET` | `/busca` | Teste de Query Params | `http://localhost:3333/busca?termo=node` |
-| `GET` | `/tarefas/:id` | Teste de Route Params | `http://localhost:3333/tarefas/1` |
-| `POST` | `/tarefas` | Teste de Request Body (JSON) | Envio via Insomnia / Postman |
+| `GET` | `/tarefas` | Lista todas as tarefas | `200 OK` |
+| `GET` | `/tarefa/:index` | Busca uma tarefa pelo índice | `200 OK` ou `404 Not Found` |
+| `POST` | `/tarefa` | Cadastra uma nova tarefa | `201 Created` ou `400 Bad Request` |
+| `PUT` | `/tarefa/:index` | Atualiza uma tarefa existente | `200 OK` ou `400/404` |
+| `DELETE` | `/tarefa/:index` | Remove uma tarefa da memória | `200 OK` ou `404 Not Found` |
 
 ---
 
-## 📸 Demonstração de Teste
-
-### Rota `POST /tarefas` (Request Body no Insomnia)
-![Teste no Insomnia](assets/insomnia-post.png)
-
----
-
-## 🚀 Como Rodar
+## 🚀 Como Executar
 
 ```bash
-# Instalar dependências
+# 1. Clonar o repositório e entrar na pasta
+cd primeira-api
+
+# 2. Instalar as dependências
 yarn
 
-# Rodar o servidor
+# 3. Iniciar o servidor de desenvolvimento
 yarn dev
