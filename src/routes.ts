@@ -4,9 +4,17 @@ const routes = Router();
 
 const tarefas: string[] = ["Estudar Node JS", "Estudar JavaScript"];
 
+// Entendendo Middlewares: Função que intercepta a requisição antes de chegar na rota
+routes.use((req: Request, res: Response, next) => {
+  console.log("Requisição recebida em:", new Date().toLocaleString());
+  next();
+});
+
+
 routes.get("/inicio-demo", (req: Request, res: Response) => {
   res.json({ message: "Minha primeira api", Aluno: "Vitor Costadela" });
 });
+
 
 // QUERY PARAMS: Filtros e busca via URL (Ex: /busca?termo=node)
 routes.get("/busca", (req: Request, res: Response) => {
@@ -75,5 +83,38 @@ routes.post("/tarefa", (req: Request, res: Response) => {
 
   return res.status(201).json(tarefas);
 });
+
+// Atualizar uma unica tarefa no array (PUT /tarefa/:index)
+routes.put("/tarefa/:index", (req: Request, res: Response) => {
+  const { index } = req.params;
+  const { nome } = req.body;
+
+  if (!nome) {
+    return res.status(400).json({ message: "Erro ao atualizar. Nome obrigatório." });
+  }
+
+  if (!tarefas[Number(index)]) {
+    return res.status(404).json({ message: "Tarefa não encontrada" });
+  }
+
+  tarefas[Number(index)] = nome;
+
+  return res.json(tarefas);
+});
+
+// Deletar uma unica tarefa no array (DELETE /tarefa/:index)
+routes.delete("/tarefa/:index", (req: Request, res: Response) => {
+  const { index } = req.params;
+
+  if (!tarefas[Number(index)]) {
+    return res.status(404).json({ message: "Tarefa não encontrada" });
+  }
+
+  tarefas.splice(Number(index), 1);
+
+  return res.json({ message: "Tarefa deletada com sucesso", tarefas });
+});
+
+
 
 export { routes };
